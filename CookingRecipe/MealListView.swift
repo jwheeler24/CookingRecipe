@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct MealListView: View {
-    let filterType: String   // "c"=category, "a"=area, "i"=ingredient
+    let filterType: String  
     let filterValue: String
     @State private var meals: [MealItem] = []
     

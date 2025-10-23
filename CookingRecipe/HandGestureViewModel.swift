@@ -14,7 +14,7 @@ class HandGestureViewModel: NSObject, ObservableObject {
     private let captureSession = AVCaptureSession()
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
-    @Published var scrollDirection: String? // "up" or "down"
+    @Published var scrollDirection: String? 
     
     override init() {
         super.init()
