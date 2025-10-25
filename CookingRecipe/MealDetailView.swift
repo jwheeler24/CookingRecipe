@@ -23,7 +23,7 @@ struct MealDetailView: View {
                             ProgressView()
                         }
                         .cornerRadius(12)
-                        .id("top")  // 👈 ID for top scroll anchor
+                        .id("top")
                         
                         Text(meal.strMeal)
                             .font(.largeTitle)
@@ -33,7 +33,7 @@ struct MealDetailView: View {
                             Text(instructions)
                                 .font(.body)
                                 .padding(.top, 8)
-                                .id("instructions") // 👈 ID for bottom scroll anchor
+                                .id("instructions")
                         }
                     } else {
                         ProgressView("Loading...")
