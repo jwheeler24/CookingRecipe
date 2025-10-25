@@ -14,7 +14,7 @@ class HandGestureViewModel: NSObject, ObservableObject {
     private let captureSession = AVCaptureSession()
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
-    @Published var scrollDirection: String? 
+    @Published var scrollDirection: String?
     
     override init() {
         super.init()
@@ -30,13 +30,30 @@ class HandGestureViewModel: NSObject, ObservableObject {
               let input = try? AVCaptureDeviceInput(device: device)
         else { return }
         
-        captureSession.addInput(input)
+        // Avoid duplicate inputs
+        if captureSession.inputs.isEmpty {
+            captureSession.addInput(input)
+        }
         
         let output = AVCaptureVideoDataOutput()
         output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "cameraQueue"))
-        captureSession.addOutput(output)
         
-        captureSession.startRunning()
+        // Avoid duplicate outputs
+        if captureSession.outputs.isEmpty {
+            captureSession.addOutput(output)
+        }
+    }
+    
+    func startCamera() {
+        if !captureSession.isRunning {
+            captureSession.startRunning()
+        }
+    }
+    
+    func stopCamera() {
+        if captureSession.isRunning {
+            captureSession.stopRunning()
+        }
     }
 }
 

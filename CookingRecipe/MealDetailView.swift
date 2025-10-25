@@ -11,6 +11,7 @@ struct MealDetailView: View {
     let mealID: String
     @State private var meal: MealDetail?
     @StateObject private var handVM = HandGestureViewModel()
+    @AppStorage("isGestureControlEnabled") private var isGestureControlEnabled = false
     
     var body: some View {
         ScrollViewReader { proxy in
@@ -43,12 +44,21 @@ struct MealDetailView: View {
             }
             .navigationTitle("Details")
             .onAppear {
+
                 let url = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealID)"
                 MealDBAPI.fetch(url: url, decodeType: MealDetailResponse.self) { result in
                     meal = result?.meals.first
                 }
+                
+                if isGestureControlEnabled {
+                    handVM.startCamera()
+                }
+            }
+            .onDisappear {
+                handVM.stopCamera()
             }
             .onReceive(handVM.$scrollDirection) { dir in
+                guard isGestureControlEnabled else { return }
                 if dir == "up" {
                     withAnimation { proxy.scrollTo("top", anchor: .top) }
                 } else if dir == "down" {
@@ -58,4 +68,3 @@ struct MealDetailView: View {
         }
     }
 }
-
