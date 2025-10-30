@@ -23,27 +23,20 @@ struct ContentView: View {
                         .fontWeight(.bold)
                         .padding(.top, 40)
                     
-                    // Category card
                     NavigationLink(destination: CategoryListView()) {
                         HomeCardView(title: "Browse by Category", emoji: "🥩", color: .pink)
                     }
                     
-                    // Area card
                     NavigationLink(destination: AreaListView()) {
                         HomeCardView(title: "Browse by Area", emoji: "🌍", color: .blue)
                     }
                     
-                    // Ingredient card
                     NavigationLink(destination: IngredientListView()) {
                         HomeCardView(title: "Browse by Ingredient", emoji: "🥕", color: .green)
                     }
-                    
-                    NavigationLink(destination: SettingsView()) {
-                        HomeCardView(title: "Settings", emoji: "⛭", color: .gray)
-                    }
-                    
+
                     Spacer()
-                
+                    
                     Text("Powered by YourMom")
                         .font(.footnote)
                         .foregroundColor(.secondary)
@@ -51,6 +44,19 @@ struct ContentView: View {
                 }
                 .padding()
             }
+            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    NavigationLink(destination: SettingsView()) {
+                        Image(systemName: "gearshape.fill")
+                            .imageScale(.large)
+                            .foregroundColor(.primary)
+                            .padding()
+                    }
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("") // hide default title
         }
     }
 }
@@ -85,4 +91,3 @@ struct HomeCardView: View {
 #Preview {
     ContentView()
 }
-
