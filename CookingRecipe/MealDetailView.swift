@@ -19,7 +19,8 @@ struct MealDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     if let meal = meal {
                         AsyncImage(url: URL(string: meal.strMealThumb ?? "")) { img in
-                            img.resizable().aspectRatio(contentMode: .fit)
+                            img.resizable()
+                                .aspectRatio(contentMode: .fit)
                         } placeholder: {
                             ProgressView()
                         }
@@ -44,9 +45,15 @@ struct MealDetailView: View {
             }
             .navigationTitle("Details")
             .onAppear {
-
                 let url = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealID)"
-                MealDBAPI.fetch(url: url, decodeType: MealDetailResponse.self) { result in
+                let cacheKey = "meal-\(mealID)"
+                
+                MealDBAPI.fetch(
+                    url: url,
+                    decodeType: MealDetailResponse.self,
+                    cacheKey: cacheKey,
+                    maxAge: 86400                   
+                ) { result in
                     meal = result?.meals.first
                 }
                 

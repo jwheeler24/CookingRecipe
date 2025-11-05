@@ -14,16 +14,23 @@ struct AreaListView: View {
         List(areas) { area in
             NavigationLink(destination: MealListView(filterType: "a", filterValue: area.strArea)) {
                 Text(area.strArea)
+                    .foregroundColor(.primary)
             }
         }
         .navigationTitle("Areas")
+        .listRowBackground(Color.clear)
+        .scrollContentBackground(.hidden)
+        .background(Color(.systemBackground))
         .onAppear {
             MealDBAPI.fetch(
                 url: "https://www.themealdb.com/api/json/v1/1/list.php?a=list",
-                decodeType: AreaResponse.self
+                decodeType: AreaResponse.self,
+                cacheKey: "areas",
+                maxAge: 86400               
             ) { result in
                 areas = result?.meals ?? []
             }
         }
     }
 }
+

@@ -14,23 +14,25 @@ struct IngredientListView: View {
         List(ingredients) { ing in
             NavigationLink(destination: MealListView(filterType: "i", filterValue: ing.strIngredient)) {
                 Text(ing.strIngredient)
-                .foregroundColor(.primary)
+                    .foregroundColor(.primary)
             }
         }
         .navigationTitle("Ingredients")
         .listRowBackground(Color.clear)
         .scrollContentBackground(.hidden)
         .background(Color(.systemBackground))
-
         .onAppear {
             MealDBAPI.fetch(
                 url: "https://www.themealdb.com/api/json/v1/1/list.php?i=list",
-                decodeType: IngredientResponse.self
+                decodeType: IngredientResponse.self,
+                cacheKey: "ingredients",
+                maxAge: 86400                
             ) { result in
                 ingredients = result?.meals ?? []
             }
         }
     }
 }
+
 
 

@@ -5,8 +5,6 @@
 //  Created by Jacob Wheeler on 10/3/25.
 //
 
-
-
 import SwiftUI
 
 struct CategoryListView: View {
@@ -16,7 +14,7 @@ struct CategoryListView: View {
         List(categories) { cat in
             NavigationLink(destination: MealListView(filterType: "c", filterValue: cat.strCategory)) {
                 Text(cat.strCategory)
-                .foregroundColor(.primary)
+                    .foregroundColor(.primary)
             }
         }
         .navigationTitle("Categories")
@@ -24,8 +22,12 @@ struct CategoryListView: View {
         .scrollContentBackground(.hidden)
         .background(Color(.systemBackground))
         .onAppear {
-            MealDBAPI.fetch(url: "https://www.themealdb.com/api/json/v1/1/list.php?c=list",
-                            decodeType: CategoryResponse.self) { result in
+            MealDBAPI.fetch(
+                url: "https://www.themealdb.com/api/json/v1/1/list.php?c=list",
+                decodeType: CategoryResponse.self,
+                cacheKey: "categories",
+                maxAge: 86400                  
+            ) { result in
                 categories = result?.meals ?? []
             }
         }
